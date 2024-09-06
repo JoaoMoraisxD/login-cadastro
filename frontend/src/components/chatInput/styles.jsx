@@ -1,16 +1,5 @@
 import styled from "styled-components";
 
-export const InputContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    background-color: #1f2437;
-    border-top: 1px solid #171b2c;
-    width: 100%;
-    height: 40%;
-`;
-
 export const StyledInput = styled.input`
     width: 70%;
     padding: 10px;

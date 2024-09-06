@@ -1,5 +1,5 @@
 import React from "react";
-import { InputContainer, StyledInput } from "./styles";
+import { StyledInput } from "./styles";
 import SendIcon from '@mui/icons-material/Send';
 import { IconButton } from "@mui/material";
 
@@ -24,7 +24,6 @@ const ChatInput = ({ onSend, OnClick }) => {
         }
     };
     return(<>
-        <InputContainer>
             <StyledInput 
                 type="text"
                 value={message}
@@ -35,7 +34,6 @@ const ChatInput = ({ onSend, OnClick }) => {
             <IconButton aria-label="send">
                 <SendIcon sx={{ color: "white", margin: "10px", }}/>
             </IconButton>
-        </InputContainer>
     </>);
 };
 

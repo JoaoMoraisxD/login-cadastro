@@ -1,5 +1,5 @@
 import React from "react";
-import { ClienteContainer, Container, InternalContainer, MessageContainer, SideContainer } from "./styles";
+import { ClienteContainer, Container, InputContainer, InternalContainer, MessageContainer, SideContainer } from "./styles";
 import { Header } from "../header/index";
 import { ChatInput } from "../chatInput/index"
 const Chat = () => {
@@ -10,13 +10,11 @@ const Chat = () => {
                 
             </SideContainer>
             <MessageContainer>
-                <ClienteContainer>
-                    teste
-                </ClienteContainer>
                 <InternalContainer>
-                    teste
                 </InternalContainer>
-                <ChatInput OnClick={''}/>
+                <InputContainer>
+                    <ChatInput OnClick={''}/>
+                </InputContainer>
             </MessageContainer>
         </Container> 
     </>);
