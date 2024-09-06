@@ -11,6 +11,8 @@ export const SideContainer = styled.div`
     width: 300px;
     height: 100vh;
     box-shadow: 2px 0 15px rgba(0, 0, 0, 0.448);
+    display: flex;
+    justify-content: center;
 `;
 
 export const MessageContainer = styled.div`
@@ -41,6 +43,17 @@ export const InputContainer = styled.div`
     bottom: 0;
 
     @media (max-width: 480px) {
-        width: 55% /* Ajuste o padding para telas muito pequenas */
+        width: 55% 
     }
 `;
+
+export const BoxMessage = styled.div`
+`
+
+export const BoxUser = styled.div`
+height: 60px;
+width: 200px;
+background-color: white;
+margin-top: 100px;
+border-radius: 8%;
+`

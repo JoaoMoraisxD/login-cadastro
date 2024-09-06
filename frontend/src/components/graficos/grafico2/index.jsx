@@ -2,10 +2,10 @@ import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 const data = [
-  { name: "Loja 1", value: 400 },
-  { name: "Loja 2", value: 300 },
-  { name: "Loja 3", value: 300 },
-  { name: "Loja 4", value: 200 }
+  { name: "Cabo Frio", value: 400 },
+  { name: "Belo Horizonte", value: 300 },
+  { name: "Araruama", value: 300 },
+  { name: "São Gonçalo", value: 200 }
 ];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];

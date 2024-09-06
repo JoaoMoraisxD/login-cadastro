@@ -1,5 +1,5 @@
 import React from "react";
-import { ClienteContainer, Container, InputContainer, InternalContainer, MessageContainer, SideContainer } from "./styles";
+import { BoxUser, ClienteContainer, Container, InputContainer, InternalContainer, MessageContainer, SideContainer } from "./styles";
 import { Header } from "../header/index";
 import { ChatInput } from "../chatInput/index"
 const Chat = () => {
@@ -7,7 +7,9 @@ const Chat = () => {
         <Header/>
         <Container>
             <SideContainer>
-                
+                <BoxUser>
+                    
+                </BoxUser>
             </SideContainer>
             <MessageContainer>
                 <InternalContainer>
