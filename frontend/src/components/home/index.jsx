@@ -1,8 +1,9 @@
 import React from "react";
 import { FaMoneyBillTrendUp, FaArrowDownWideShort, FaArrowUpWideShort  } from "react-icons/fa6";
 import { FaUserAlt } from "react-icons/fa";
+import { MdBorderColor } from "react-icons/md";
 import { Header } from "../header/index"
-import { Container, GrafContainer,GraficoM1,DetailContainer, InfoContainer, TypeContainer, PizzaContainer, InfoLine, LineContainer } from './styles';
+import { Container, GrafContainer,GraficoM1,DetailContainer, InfoContainer, TypeContainer, PizzaContainer, InfoLine, LineContainer, Div } from './styles';
 import Grafico1 from "../graficos/grafico1";
 import Grafico2 from "../graficos/grafico2";
 const Home = () => {
@@ -33,7 +34,7 @@ const Home = () => {
           <GraficoM1>
             <InfoContainer>
               <div className="title">
-                <FaMoneyBillTrendUp style={{ marginRight: '8px', color: '#413ea0' }}/>
+                <MdBorderColor style={{ marginRight: '8px', color: '#413ea0' }}/>
                 <h5>TOTAL DE PEDIDOS</h5>
               </div>
               <div className="valor">
@@ -79,26 +80,28 @@ const Home = () => {
             </InfoContainer>
           </GraficoM1>
         </DetailContainer>
+          <LineContainer>
+            <h1>Mais vendido</h1>
+            <InfoLine>
+              <span>Quantidade Vendida:</span> <span>100</span>
+            </InfoLine>
+            <InfoLine>
+              <span>Nome do Produto:</span> <span>Produto A</span>
+            </InfoLine>
+            <InfoLine>
+              <span>Valor:</span> <span>R$ 50,00</span>
+            </InfoLine>
+          </LineContainer>
+          <Div>
         <GrafContainer>
           <h3>GRÁFICO SEMANAL</h3>
           <Grafico1 />
         </GrafContainer>
-        <LineContainer>
-          <h1>Mais vendido</h1>
-        <InfoLine>
-        <span>Quantidade Vendida:</span> <span>100</span>
-      </InfoLine>
-      <InfoLine>
-        <span>Nome do Produto:</span> <span>Produto A</span>
-      </InfoLine>
-      <InfoLine>
-        <span>Valor:</span> <span>R$ 50,00</span>
-      </InfoLine>
-      </LineContainer>
         <PizzaContainer>
+          <h3>CONVERSÃO POR LOJA</h3>
           <Grafico2 />
-          <h2>Regiões Destaque</h2>
         </PizzaContainer>
+        </Div>
       </Container>
     </>)
 }

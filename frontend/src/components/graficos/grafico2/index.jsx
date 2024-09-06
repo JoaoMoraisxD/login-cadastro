@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 
 const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 }
+  { name: "Loja 1", value: 400 },
+  { name: "Loja 2", value: 300 },
+  { name: "Loja 3", value: 300 },
+  { name: "Loja 4", value: 200 }
 ];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -45,14 +45,16 @@ export default function Grafico2() {
         cy={200}
         labelLine={false}
         label={renderCustomizedLabel}
-        outerRadius={80}
+        outerRadius={120}
         fill="#8884d8"
         dataKey="value"
       >
         {data.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
+        
       </Pie>
+      <Legend />
     </PieChart>
   );
 }

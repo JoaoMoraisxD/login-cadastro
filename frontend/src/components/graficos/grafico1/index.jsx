@@ -59,9 +59,10 @@ const data = [
 
 export default function Grafico1() {
   return (
+  
     <ComposedChart
       width={500}
-      height={300}
+      height={400}
       data={data}
       margin={{
         top: 20,

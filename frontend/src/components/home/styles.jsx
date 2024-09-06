@@ -1,24 +1,25 @@
 import styled from "styled-components";
-import bgImage from "../../assets/ceuNoturno.jpg"
 
 export const Container = styled.div`
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-    135deg, /* Define a direção do gradiente (45 graus diagonais) */
-    #000000, /* Preto muito escuro no início */
-    #181818 30%, /* Cinza escuro em 30% do gradiente */
-    #0d0d0d 60%, /* Outro tom escuro no meio */
-    #000000 100% /* Preto puro no final */
-  );
+//     background: linear-gradient(
+//     135deg,
+//     #000000, 
+//     #181818 30%, 
+//     #0d0d0d 60%, 
+//     #000000 100% 
+//   );
+    background-color: #1b1e2a;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 50px;
+    align-items: center;
+    gap: 20px;
 
-    @media (max-width: 500px){
+    /* @media (max-width: 500px){
         flex-direction: column;
-    }
+    } */
 `;
 
 export const TypeContainer = styled.div`
@@ -44,31 +45,29 @@ export const TypeContainer = styled.div`
 `;
 
 export const GrafContainer = styled.div`
-    background-color: #292929da;
+    background-color: #1f2437;
     font-family: 'Roboto', sans-serif;
-    width: 600px;
+    width: 700px;
     height: 500px;
-    margin: auto;
-    border-radius: 15px;
+    border-radius: 5px;
     display: flex;
-    flex-wrap: wrap; 
+    flex-direction: column;
     justify-content: center;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-right: 25px;
     color: white;
-    @media (max-width: 500px){
+    /* @media (max-width: 500px){
         width: 100%;
-    }
+    } */
     
     h3{
-        margin-top: 10px;
+        margin-top: 25px;
     }
       
 `;
 export const DetailContainer = styled.div`
     background-color: transparent;
-    width: 600px;
-    height: 500px;
-    margin: auto;
+    width: 100%;
     display: flex;
     flex-wrap: wrap; 
     justify-content: center; 
@@ -84,12 +83,11 @@ export const GraficoM1 = styled.div`
   width: 210px;
   height: 210px;
   margin-top: 10px;
-  border-radius: 30px;
-  background-color: #292929da;
+  border-radius: 5px;
+  background-color: #1f2437;
   display: flex;
   justify-content: center;
   align-items: center;
-
 `;
 
 export const InfoContainer = styled.div`
@@ -141,13 +139,14 @@ export const InfoContainer = styled.div`
 `;
 
 export const LineContainer = styled.div`
-    width: 50%;
-    background-color: #292929da;
+    width: 83%;
+    height: 290px;
+    background-color: #1f2437;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-radius: 30px;
+    border-radius: 5px;
     font-family: 'Roboto', sans-serif;
     margin: 10px;
     @media (max-width: 500px){
@@ -171,21 +170,27 @@ export const InfoLine = styled.div`
 `;
 
 export const PizzaContainer = styled.div`
-    background-color:#292929da;
-    width: 20%;
+    background-color:#1f2437;
+    width: 550px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-radius: 30px;
+    border-radius: 5px;
     color: white;
     font-family: 'Roboto', sans-serif;
-    margin: 10px;
     @media (max-width: 800px){
         width: 100%;
     }
-
-    h2{
-        margin-bottom: 10px;
-    }
 `;
+
+export const Div = styled.div`
+    width: 83%;
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 800px){
+        flex-direction: column;
+        gap: 30px;
+    }
+`

@@ -4,12 +4,14 @@ import {
   FaTimes,  
   FaEnvelope,  
   FaChartBar,
-  FaPowerOff 
+  FaPowerOff,
+  FaHome 
 } from 'react-icons/fa'
-
+import { useNavigate } from 'react-router-dom';
 import SidebarItem from '../sideBarItem/index'
 
 const Sidebar = ({ active }) => {
+  const navigate = useNavigate();
 
   const closeSidebar = () => {
     active(false)
@@ -19,9 +21,9 @@ const Sidebar = ({ active }) => {
     <Container sidebar={active}>
       <FaTimes onClick={closeSidebar} />  
       <Content>
-        <SidebarItem Icon={FaChartBar} Text="DashBoard" />
-        <SidebarItem Icon={FaEnvelope} Text="Messagens" />
-        <SidebarItem Icon={FaPowerOff} Text="Sair" />
+        <SidebarItem onCLick={() => navigate('/home')} Icon={FaChartBar} Text="DashBoard" />
+        <SidebarItem onCLick={() => navigate('/chat')} Icon={FaEnvelope} Text="Messagens" />
+        <SidebarItem onCLick={() => navigate('/')} Icon={FaPowerOff} Text="Sair" />
       </Content>
     </Container>
   )
