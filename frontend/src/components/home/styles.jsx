@@ -63,7 +63,7 @@ export const GrafContainer = styled.div`
     h3{
         margin-top: 25px;
     }
-      
+
 `;
 export const DetailContainer = styled.div`
     background-color: transparent;
