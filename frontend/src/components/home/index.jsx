@@ -54,7 +54,7 @@ const Home = () => {
                 <h5>VISITAS</h5>
               </div>
               <div className="valor">
-                <h2>R$ 120,784.02</h2>
+                <h2>78.402</h2>
               </div>
               <div className="positiveValor">
               <FaArrowDownWideShort style={{color: 'red' }}/>

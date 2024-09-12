@@ -27,13 +27,9 @@ const activeUsers = {};
 io.on("connection", (socket) => {
   console.log("Novo usuário conectado:", socket.id);
 
-  socket.on("send_message", (messageData) => {
-    console.log("Mensagem recebida:", messageData);
-    io.emit("receive_message", messageData); // Emite a mensagem para todos os clientes
-  });
-
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.id);
+    delete activeUsers[socket.id];
   });
 
   // Recebe a informação do usuário que efetuou o login
@@ -42,18 +38,11 @@ io.on("connection", (socket) => {
     console.log(`Usuário logado: ${user.nome}`);
   });
 
-  // Evento que escuta as mensagens enviadas e as distribui para todos
-  socket.on('send_message', (messageData) => {
-    const user = activeUsers[socket.id];
-    if (user) {
-      const message = {
-        text: messageData.text,
-        user: user.nome,
-        isSent: true,
-      };
-      io.emit('receive_message', message); // Envia a mensagem para todos os clientes conectados
-    }
+  socket.on("send_message", (messageData) => {
+    console.log("Mensagem recebida:", messageData);
+    io.emit("receive_message", messageData); // Emite a mensagem para todos os clientes
   });
+
 });
 
 app.get("/users", async (req, res) => {

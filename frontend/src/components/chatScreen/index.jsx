@@ -1,32 +1,59 @@
-// Chat.jsx
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { BoxUser, Container, InputContainer, InternalContainer, MessageContainer, SideContainer } from "./styles";
+import { BoxUser, Container, InputContainer, InternalContainer, MessageContainer, SideContainer, StatusIndicator } from "./styles";
 import { Header } from "../header/index";
 import { ChatInput } from "../chatInput/index";
 import MessageBox from "../mensageBox";
+import axios from "axios";
+import userImg from "../../assets/user.png"
 
-// Conectando ao backend Socket.IO
 const socket = io("http://localhost:3000");
 
 const Chat = () => {
+  const [isOnline, setIsOnline] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setIsOnline(true);
+
+    return () => {
+      setIsOnline(false);
+    };
+  }, []);
+
+  useEffect(() => {
+
+    const buscaUsers = async () => {
+      try{
+        const response = await axios.get("http://localhost:3000/users");
+        console.log(response)
+        setData(response.data.usuarios);
+      }catch(err){
+        setError(err.message);
+      }finally {
+        setLoading(false);
+      }
+    };
+
+    buscaUsers();
+  }, []);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
     if (username) {
       setUser({ nome: username });
     }
-
-    // Escuta o evento de recebimento de mensagens
     socket.on("receive_message", (msg) => {
-      console.log("Mensagem recebida:", msg); // Log para depuração
+      console.log("Mensagem recebida:", msg); 
       setMessages((prevMessages) => [...prevMessages, msg]); // Adiciona a nova mensagem ao estado
     });
 
-    // Cleanup do evento ao desmontar o componente
+
     return () => {
       socket.off("receive_message");
     };
@@ -35,18 +62,17 @@ const Chat = () => {
   // Função para enviar mensagens
   const handleSend = (message) => {
     const username = localStorage.getItem("username");
-    console.log("Enviando mensagem:", { text: message, user: username }); // Log para depuração
+    console.log("Enviando mensagem:", { text: message, user: username }); 
     if (message.trim() && username) {
       const messageData = {
         text: message,
-        user: username, // Inclui o nome do usuário na mensagem
+        user: username, 
       };
       socket.emit("send_message", messageData); // Envia a mensagem ao backend
       setMessage(""); // Limpa o campo de entrada
     }
   };
 
-  // Função para enviar mensagem ao pressionar Enter
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -59,12 +85,16 @@ const Chat = () => {
       <Header />
       <Container>
         <SideContainer>
-          <BoxUser>
-            <span>Gabriel Braz</span>
-          </BoxUser>
-          <BoxUser>
-            <span>Hugo Paulino</span>
-          </BoxUser>
+          {loading ? (<p>Carregando...</p>) : error ? (
+          <p>Erro ao buscar os dados: {error}</p>
+          ) : (
+          data.map((item, index) => (
+          <BoxUser key={index}>
+            <StatusIndicator $isVisible={isOnline} />
+            <img src={userImg} alt="userimg"/>{item}
+          </BoxUser> 
+         ))
+        )}
         </SideContainer>
         <MessageContainer>
           <InternalContainer>

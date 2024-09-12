@@ -1,14 +1,26 @@
 import styled from "styled-components";
 
+export const StatusIndicator = styled.div`
+  width: 10px;
+  height: 10px;
+  background-color: green; 
+  border-radius: 50%;
+  position: absolute; 
+  top: 10px; 
+  right: 10px; 
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+`;
+
 export const MessageBoxContainer = styled.div`
   max-width: 50%;
-  margin: 10px 0;
+  margin: 10px;
   padding: 10px 15px;
   border-radius: 10px;
   background-color: ${({ isSent }) => (isSent ? '#4f93ff' : '#d1d1d1b3')};
   align-self: ${({ isSent }) => (isSent ? 'flex-end' : 'flex-start')};
   word-wrap: break-word;
   white-space: pre-wrap;
+  font-family: 'Roboto', sans-serif;
   color: #fff;
   text-align: left;
 `;
@@ -79,9 +91,16 @@ export const BoxUser = styled.div`
     border-radius: 10px;
     display: flex;
     align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 550;
+    position: relative;
 
-    .userImg{
-        height: 40px;
-        margin: 20px;
+    img{
+        height: 50px;
+        margin: 15px;
+    }
+    transition: width 0.3s ease, height 0.3s ease;
+    &:hover {
+        width: 210px;
     }
 `

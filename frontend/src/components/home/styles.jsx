@@ -3,23 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 100%;
     height: 100%;
-//     background: linear-gradient(
-//     135deg,
-//     #000000, 
-//     #181818 30%, 
-//     #0d0d0d 60%, 
-//     #000000 100% 
-//   );
     background-color: #1b1e2a;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 20px;
-
-    /* @media (max-width: 500px){
-        flex-direction: column;
-    } */
 `;
 
 export const TypeContainer = styled.div`
@@ -56,9 +45,6 @@ export const GrafContainer = styled.div`
     align-items: center;
     margin-right: 25px;
     color: white;
-    /* @media (max-width: 500px){
-        width: 100%;
-    } */
     
     h3{
         margin-top: 25px;
@@ -88,6 +74,11 @@ export const GraficoM1 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: width 0.3s ease, height 0.3s ease;
+  &:hover {
+    width: 220px;
+    height: 220px; 
+  }
 `;
 
 export const InfoContainer = styled.div`

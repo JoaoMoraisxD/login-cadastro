@@ -13,17 +13,11 @@ export const Container_cadastro = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(
-    135deg, 
-    #000000, 
-    #181818 30%, 
-    #0d0d0d 60%, 
-    #000000 100% 
-  );
+    background-color: #1f2437;
 `
 export const Wrap_cadastro = styled.div`
     width: 390px;
-    background-color: #333;
+    background-color: #2b3147f2;
     overflow: hidden;
     padding: 20px 55px 33px 55px;
     box-shadow: 0 5px 10px 0px rgba(0, 0,0, 0.2);
