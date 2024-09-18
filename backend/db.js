@@ -8,10 +8,4 @@ const config = {
     port: 5432
 }
 
-// const client = new Client(config);
-
-// client.connect() 
-//   .then(() => console.log('Conectado ao banco de dados'))
-//   .catch(err => console.error('Erro ao conectar ao banco de dados', err));
-
 module.exports = config;

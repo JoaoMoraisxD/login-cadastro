@@ -5,71 +5,77 @@ import { Header } from "../header/index";
 import { ChatInput } from "../chatInput/index";
 import MessageBox from "../mensageBox";
 import axios from "axios";
-import userImg from "../../assets/user.png"
+import userImg from "../../assets/user.png";
+import { useUser } from "../contexts/userContext"; // Importe o hook useUser para acessar o contexto
 
 const socket = io("http://localhost:3000");
 
 const Chat = () => {
-  const [isOnline, setIsOnline] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState(null);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setIsOnline(true);
+  const { user } = useUser();
 
+  useEffect(() => {
+    if (user) {
+      socket.emit('user_login', user); // Emite o evento de login com as informações do usuário
+    }
+  }, [user]);
+
+  useEffect(() => {
+    socket.on("active_users", (users) => {
+      console.log("Usuários online:", users);
+      setData(users); // Atualiza o estado com a lista de usuários online
+    });
+  
     return () => {
-      setIsOnline(false);
+      socket.off("active_users");
     };
   }, []);
 
   useEffect(() => {
-
     const buscaUsers = async () => {
-      try{
-        const response = await axios.get("http://localhost:3000/users");
-        console.log(response)
-        setData(response.data.usuarios);
-      }catch(err){
+      try {
+        const response = await axios.get("http://localhost:3000/users"); 
+        console.log(response);
+        setData(response.data.usuarios); // Salva a lista de usuários com `isOnline` incluído
+      } catch (err) {
         setError(err.message);
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
 
     buscaUsers();
+
+    const intervalId = setInterval(buscaUsers, 1000); 
+
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (username) {
-      setUser({ nome: username });
-    }
     socket.on("receive_message", (msg) => {
-      console.log("Mensagem recebida:", msg); 
+      console.log("Mensagem recebida:", msg);
       setMessages((prevMessages) => [...prevMessages, msg]); // Adiciona a nova mensagem ao estado
     });
-
 
     return () => {
       socket.off("receive_message");
     };
   }, []);
 
-  // Função para enviar mensagens
   const handleSend = (message) => {
-    const username = localStorage.getItem("username");
-    console.log("Enviando mensagem:", { text: message, user: username }); 
-    if (message.trim() && username) {
+    if (message.trim() && user) { // Verifica se há uma mensagem e um usuário logado
       const messageData = {
         text: message,
-        user: username, 
+        user: user.nome, 
       };
-      socket.emit("send_message", messageData); // Envia a mensagem ao backend
-      setMessage(""); // Limpa o campo de entrada
+      console.log("Enviando mensagem:", messageData);
+      socket.emit("send_message", messageData); 
+      setMessage("");
     }
   };
 
@@ -85,24 +91,27 @@ const Chat = () => {
       <Header />
       <Container>
         <SideContainer>
-          {loading ? (<p>Carregando...</p>) : error ? (
-          <p>Erro ao buscar os dados: {error}</p>
+          {loading ? (
+            <p style={{color: "white", fontWeight: "bold"}}>Carregando...</p>
+          ) : error ? (
+            <p>Erro ao buscar os dados: {error}</p>
           ) : (
-          data.map((item, index) => (
-          <BoxUser key={index}>
-            <StatusIndicator $isVisible={isOnline} />
-            <img src={userImg} alt="userimg"/>{item}
-          </BoxUser> 
-         ))
-        )}
+            data.map((item, index) => (
+              <BoxUser key={index}>
+                <StatusIndicator $isVisible={item.isOnline} /> 
+                <img src={userImg} alt="userimg" />
+                {item.username} 
+              </BoxUser>
+            ))
+          )}
         </SideContainer>
         <MessageContainer>
           <InternalContainer>
             {messages.map((msg, index) => (
               <MessageBox
                 key={index}
-                message={`${msg.user}: ${msg.text}`} // Mostra o usuário e a mensagem
-                isSent={msg.user === user?.nome} // Define o alinhamento da mensagem com base no usuário logado
+                message={`${msg.user}:\n ${msg.text}`} 
+                isSent={msg.user === user?.nome}
               />
             ))}
           </InternalContainer>

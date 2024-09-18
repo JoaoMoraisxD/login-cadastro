@@ -8,7 +8,7 @@ export const StatusIndicator = styled.div`
   position: absolute; 
   top: 10px; 
   right: 10px; 
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')}; /* Usar $isVisible aqui */
 `;
 
 export const MessageBoxContainer = styled.div`
@@ -16,13 +16,39 @@ export const MessageBoxContainer = styled.div`
   margin: 10px;
   padding: 10px 15px;
   border-radius: 10px;
-  background-color: ${({ isSent }) => (isSent ? '#4f93ff' : '#d1d1d1b3')};
+  background-color: ${({ isSent }) => (isSent ? '#4f93ff' : '#a8a8a8')};
   align-self: ${({ isSent }) => (isSent ? 'flex-end' : 'flex-start')};
   word-wrap: break-word;
   white-space: pre-wrap;
   font-family: 'Roboto', sans-serif;
   color: #fff;
   text-align: left;
+  position: relative; /* Necessário para o pseudo-elemento */
+
+  &::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px;
+    border-color: ${({ isSent }) => 
+      isSent 
+      ? '#4f93ff transparent transparent transparent' /* Seta azul para mensagens enviadas */
+      : '#a8a8a8 transparent transparent transparent'}; /* Seta cinza para mensagens recebidas */
+
+    /* Alinhamento da seta com base se é uma mensagem enviada ou recebida */
+    ${({ isSent }) =>
+      isSent
+        ? `
+            top: 4px;
+            right: -10px; /* Puxa para a direita */
+            transform: rotate(20deg); /* Rotaciona para formar a seta */
+          `
+        : `
+            top: 1px;
+            left: -10px; /* Puxa para a esquerda */
+            transform: rotate(-3deg); /* Rotaciona para formar a seta */
+          `}
+  }
 `;
 
 export const Container = styled.div`
@@ -30,6 +56,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #1f2437;
 `;
 export const SideContainer = styled.div`
     background-color: #1f2437;

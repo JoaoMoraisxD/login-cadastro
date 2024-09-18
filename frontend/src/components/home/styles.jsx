@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #1b1e2a;
+    background-color: #1f2437;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -34,7 +34,7 @@ export const TypeContainer = styled.div`
 `;
 
 export const GrafContainer = styled.div`
-    background-color: #1f2437;
+    background-color: #2b3147f2;
     font-family: 'Roboto', sans-serif;
     width: 700px;
     height: 500px;
@@ -70,15 +70,10 @@ export const GraficoM1 = styled.div`
   height: 210px;
   margin-top: 10px;
   border-radius: 5px;
-  background-color: #1f2437;
+  background-color: #2b3147f2;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: width 0.3s ease, height 0.3s ease;
-  &:hover {
-    width: 220px;
-    height: 220px; 
-  }
 `;
 
 export const InfoContainer = styled.div`
@@ -132,7 +127,7 @@ export const InfoContainer = styled.div`
 export const LineContainer = styled.div`
     width: 83%;
     height: 290px;
-    background-color: #1f2437;
+    background-color: #2b3147f2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,7 +156,7 @@ export const InfoLine = styled.div`
 `;
 
 export const PizzaContainer = styled.div`
-    background-color:#1f2437;
+    background-color:#2b3147f2;
     width: 550px;
     height: 500px;
     display: flex;

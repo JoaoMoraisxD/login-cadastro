@@ -27,22 +27,24 @@ const activeUsers = {};
 io.on("connection", (socket) => {
   console.log("Novo usuário conectado:", socket.id);
 
+  socket.on('user_login', (user) => {
+    activeUsers[socket.id] = user;
+    console.log(`Usuário logado: ${user.nome} - Socket ID: ${socket.id}`);
+
+    io.emit("active_users", Object.values(activeUsers));
+  });
+
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.id);
     delete activeUsers[socket.id];
-  });
 
-  // Recebe a informação do usuário que efetuou o login
-  socket.on('user_login', (user) => {
-    activeUsers[socket.id] = user;
-    console.log(`Usuário logado: ${user.nome}`);
+    io.emit("active_users", Object.values(activeUsers));
   });
 
   socket.on("send_message", (messageData) => {
     console.log("Mensagem recebida:", messageData);
-    io.emit("receive_message", messageData); // Emite a mensagem para todos os clientes
+    io.emit("receive_message", messageData); 
   });
-
 });
 
 app.get("/users", async (req, res) => {
@@ -50,13 +52,17 @@ app.get("/users", async (req, res) => {
 
   try {
     await client.connect();
-    const query = `SELECT username FROM public.users`; // Ajustado para retornar apenas a coluna username
+    const query = `SELECT username FROM public.users`; 
     const result = await client.query(query);
 
-    // Retorna apenas os usernames
+    const usersWithStatus = result.rows.map(row => ({
+      username: row.username,
+      isOnline: Object.values(activeUsers).some(user => user.nome === row.username) // Verifica se o usuário está no activeUsers
+    }));
+
     res.status(200).json({
       mensagem: 'Busca bem-sucedida',
-      usuarios: result.rows.map(row => row.username), // Mapeia para obter apenas usernames
+      usuarios: usersWithStatus, // Retorna o username com o status isOnline
     });
   } catch (error) {
     console.error("Erro ao consultar usuários", error);
@@ -116,6 +122,77 @@ app.post("/cadastro", async (req, res) => {
   }
 });
 
+app.post('/cadastraProd', async (req, res) => {
+  const jsonData = req.body;
+  const { nome, quantidade_em_estoque, valor } = jsonData;
+  const client = new Client(config);
+
+  const query = `
+    INSERT INTO produtos (nome, quantidade_em_estoque, valor)
+    VALUES ($1, $2, $3)
+  `;
+
+  const values = [nome, quantidade_em_estoque, valor];
+
+  try {
+    await client.connect();
+    await client.query(query, values); 
+    res.status(200).json({ mensagem: "Produto cadastrado com sucesso !" });
+  } catch (error) {
+    console.error("Erro ao cadastrar produto!", error);
+    res.status(500).json({ mensagem: "Erro ao cadastrar produto !" });
+  } finally {
+    await client.end(); 
+  }
+});
+
+app.delete('/deleteProd', async (req, res) => {
+  const jsonData = req.body;
+  console.log(jsonData)
+  const nome = jsonData.nome;
+  console.log(nome)
+  const client = new Client(config);
+  const query = `
+    DELETE FROM produtos WHERE nome = $1
+  `;
+
+  const values = [nome];
+
+  try{
+    await client.connect();
+    await client.query(query, values);
+    res.status(200).json({ mensagem: "Produto deletado com sucesso !" });
+  }catch(error){
+    console.error("Erro ao deletar o produto", error);
+    res.status(500).json({mensagem: "Erro ao deletar produto"});
+  }finally{
+    await client.end();
+  }
+});
+
+app.get("/buscaProd", async (req, res) => {
+  const client = new Client(config);
+  const query = `
+    SELECT id, nome, quantidade_em_estoque, valor FROM produtos
+  `;
+
+  try{
+    await client.connect();
+    const response = await client.query(query);
+    res.status(200).json({
+      mensagem: "Busca efetuada com sucesso",
+      resposta: response.rows
+    })
+
+  }catch(error){
+    console.error("Erro ao buscar produtos", error);
+    res.status(500).json({mensagem: "Erro ao buscar produtos"});
+  }finally{
+    await client.end();
+  }
+});
+
 server.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");
 });
+

@@ -1,31 +1,33 @@
 import React from "react";
 import { Container, Container_login, Wrap_login, Login_form, Form_title, Txt1, Txt2 } from "./styles";
-import { Input } from "../input"; // Importa o Input modificado
+import { Input } from "../input"; 
 import { Button } from "../button";
 import { Header } from "../header";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form"; // Importando o Controller
+import { useForm, Controller } from "react-hook-form"; 
 import axios from "axios";
 import jsImage from "../../assets/js.png";
 import Swal from "sweetalert2";
+import { useUser } from "../contexts/userContext"; // Importe o hook useUser
 
-// Validação do formulário com Yup
+
 const schema = yup.object({
   email: yup.string().email("Email não é valido").required("Campo obrigatório"),
   password: yup.string().min(6, "No minimo 6 caracteres").required("Campo obrigatório"),
 }).required();
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { loginUser } = useUser(); // Acessa a função loginUser do contexto
 
   const { control, handleSubmit, formState: { errors, isValid } } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
-  // Função para lidar com o envio do formulário
+  // Função para tratar o envio do formulário
   const onSubmit = async (formData) => {
     try {
       const response = await axios.post("http://localhost:3000/login", {
@@ -37,29 +39,32 @@ const Login = () => {
         }
       });
   
-      console.log(response.data.mensagem);
-      if (response.data.mensagem == "Login bem-sucedido"){
+      if (response.data.mensagem === "Login bem-sucedido") {
+        const userData = { nome: response.data.usuario.username }; 
+        loginUser(userData);
         localStorage.setItem('username', response.data.usuario.username);
+
         Swal.fire({
           title: 'Sucesso',
           text: 'Login efetuado com sucesso!',
           icon: 'success'
-      });
+        });
+
         navigate('/home');
-      }else{
+      } else {
         Swal.fire({
           title: 'Oops...',
           text: 'Email ou Senha invalido!',
           icon: 'error'
-      });
+        });
       }
     } catch (error) {
-      console.error(error.response?.data || "Erro inesperado"); 
+      console.error(error.response?.data || "Erro inesperado");
       Swal.fire({
         title: 'Oops...',
         text: 'Email ou Senha invalido!',
         icon: 'error'
-    });
+      });
     }
   };
 
@@ -70,20 +75,19 @@ const Login = () => {
           <Login_form onSubmit={handleSubmit(onSubmit)}>
             <Form_title>Bem Vindo !</Form_title>
             <Form_title>
-                <img className="img" src={jsImage} alt="js Image" />
+              <img className="img" src={jsImage} alt="js Image" />
             </Form_title>
 
             {/* Campo de Input de Email com Controller */}
-        
             <Controller
               name="email"
               control={control}
               render={({ field, fieldState }) => (
                 <Input
-                  field={field} // Propriedades do input, como onChange, onBlur e value
+                  field={field}
                   type="email"
                   placeholder="Email"
-                  errorMessage={fieldState.error?.message} // Exibe mensagem de erro
+                  errorMessage={fieldState.error?.message}
                 />
               )}
             />
@@ -97,7 +101,7 @@ const Login = () => {
                   field={field}
                   type="password"
                   placeholder="Senha"
-                  errorMessage={fieldState.error?.message} // Exibe mensagem de erro
+                  errorMessage={fieldState.error?.message}
                 />
               )}
             />
