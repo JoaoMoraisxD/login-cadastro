@@ -149,26 +149,54 @@ app.post('/cadastraProd', async (req, res) => {
 app.delete('/deleteProd', async (req, res) => {
   const jsonData = req.body;
   console.log(jsonData)
-  const nome = jsonData.nome;
-  console.log(nome)
+  const { id, nomeProduto } = jsonData;
+  console.log(nomeProduto)
+
   const client = new Client(config);
   const query = `
-    DELETE FROM produtos WHERE nome = $1
+    DELETE FROM produtos WHERE id = $1 AND nome = $2
   `;
 
-  const values = [nome];
+  const values = [id, nomeProduto];
+
+  try {
+    await client.connect();
+    await client.query(query, values);
+    res.status(200).json({ mensagem: "Produto deletado com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao deletar o produto", error);
+    res.status(500).json({ mensagem: "Erro ao deletar produto" });
+  } finally {
+    await client.end();
+  }
+});
+
+app.put("/vendeProd", async (req, res) => {
+  const jsonData = req.body;
+  console.log(jsonData)
+  const {id, nome, quantidade} = jsonData;
+  const client = new Client(config);
+  const query = `
+      UPDATE produtos
+      SET quantidade_em_estoque = quantidade_em_estoque - $3
+      WHERE nome = $2 AND id = $1
+      RETURNING quantidade_em_estoque;
+  `;
+
+  const values = [id, nome, quantidade];
 
   try{
     await client.connect();
     await client.query(query, values);
-    res.status(200).json({ mensagem: "Produto deletado com sucesso !" });
+    res.status(200).json({message: "Dados alterados com sucesso !"});
+
   }catch(error){
-    console.error("Erro ao deletar o produto", error);
-    res.status(500).json({mensagem: "Erro ao deletar produto"});
+    console.error("Error ao enviar dados:", error)
+    res.status(500).json({message:"Erro ao enviar dados"});
   }finally{
     await client.end();
   }
-});
+})
 
 app.get("/buscaProd", async (req, res) => {
   const client = new Client(config);

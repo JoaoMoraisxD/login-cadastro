@@ -9,7 +9,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Scatter
+  Scatter,
+  ResponsiveContainer 
 } from "recharts";
 
 const data = [
@@ -59,10 +60,9 @@ const data = [
 
 export default function Grafico1() {
   return (
-  
-    <ComposedChart
-      width={500}
-      height={400}
+    <ResponsiveContainer width="80%" height={400}>
+     
+     <ComposedChart
       data={data}
       margin={{
         top: 20,
@@ -81,5 +81,7 @@ export default function Grafico1() {
       <Line type="monotone" dataKey="uv" stroke="#ff7300" />
       <Scatter dataKey="cnt" fill="red" />
     </ComposedChart>
+  </ResponsiveContainer>
+
   );
 }

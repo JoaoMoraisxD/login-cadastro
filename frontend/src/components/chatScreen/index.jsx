@@ -110,7 +110,7 @@ const Chat = () => {
             {messages.map((msg, index) => (
               <MessageBox
                 key={index}
-                message={`${msg.user}:\n ${msg.text}`} 
+                message={`${msg.user}:\n${msg.text}`} 
                 isSent={msg.user === user?.nome}
               />
             ))}

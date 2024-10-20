@@ -36,7 +36,7 @@ export const TypeContainer = styled.div`
 export const GrafContainer = styled.div`
     background-color: #2b3147f2;
     font-family: 'Roboto', sans-serif;
-    width: 700px;
+    width: 100%;
     height: 500px;
     border-radius: 5px;
     display: flex;

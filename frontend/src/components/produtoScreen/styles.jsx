@@ -27,20 +27,20 @@ export const StyledButton = styled.button`
   cursor: pointer;
   color: white;
 
-  background-color: ${({ action }) => {
-    switch (action) {
-      case 'delete':
-        return '#ff4d4f'; 
-      case 'insert':
-        return '#4caf50'; 
-      case 'update':
-        return '#2196f3'; 
-      case 'editQuantity':
-        return '#ffc107'; 
-      default:
-        return '#333'; 
-    }
-  }};
+  background: ${({ action }) => {
+  switch (action) {
+    case 'delete':
+      return '#ff4d4f'; 
+    case 'insert':
+      return '#4caf50'; 
+    case 'update':
+      return '#2196f3'; 
+    case 'editQuantity':
+      return 'linear-gradient(150deg, #034159, #025951, #02735E, #038C3E, #0CF25D)'; 
+    default:
+      return '#333'; 
+  }
+}};
 
   &:hover {
     opacity: 0.8;
@@ -48,7 +48,7 @@ export const StyledButton = styled.button`
 `;
 
 export const TypeContainer = styled.div`
-    margin-top: 50px;
+    margin-top: 65px;
     width: 70%;
     font-family: 'Roboto', sans-serif;
     @media (max-width: 500px){
